@@ -30,7 +30,7 @@ public class Pdf2PptInAction {
 		
 		// WAY2 - To convert ppt-> images as BufferedImage-> convert BufferedImage to  Byte array-> add them to PPT [RECOMMENDED]
 		// Creates a ned ppt and add slides to it
-		Poi315HelperWithoutCreatinImagesInHardDrive.exportNewPptfromPdf(sourcePdfPath);
+		// Poi315HelperWithoutCreatinImagesInHardDrive.exportNewPptfromPdf(sourcePdfPath);
 		
 		// Adding slides to KPMG provided template
 		String pptExten = ".pptx";

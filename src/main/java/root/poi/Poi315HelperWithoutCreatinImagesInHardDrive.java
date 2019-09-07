@@ -1,6 +1,8 @@
 package root.poi;
 
+import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -87,7 +89,8 @@ public class Poi315HelperWithoutCreatinImagesInHardDrive {
 				// creating a slide with given picture on it
 				XSLFPictureShape picture = slide.createPicture(pictureData);
 				// Set picture position and size
-				picture.setAnchor(new Rectangle(0, 0, 600, 500));
+				picture.setAnchor(new Rectangle(70, 30, 500, 450));
+				
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -104,6 +107,10 @@ public class Poi315HelperWithoutCreatinImagesInHardDrive {
 				try (PDDocument document = PDDocument.load(new File(sourcePdfPath));
 						XMLSlideShow ppt = new XMLSlideShow(new FileInputStream(pptTemplatePath));
 						FileOutputStream out = new FileOutputStream(new File("./reports-kpmg-template"+pptExten));) {
+					
+					// setting page size to beautify ppt slide
+					
+					//ppt.setPageSize(new Dimension(800, 1000));
 					
 					// removing blank page from index 1 
 					ppt.removeSlide(1);
