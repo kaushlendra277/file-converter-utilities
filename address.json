@@ -1,0 +1,86 @@
+[
+  {
+    "overview": [
+      [
+        "DATA FILE NAME",
+        "address"
+      ],
+      [
+        "FILE SIZE",
+        "320.0 B"
+      ],
+      [
+        "FILE TYPE",
+        "csv"
+      ],
+      [
+        "# OF ROWS / COLUMNS",
+        "5 / 6"
+      ],
+      [
+        "COUNT",
+        5
+      ],
+      [
+        "MISSING DATA",
+        0.07
+      ]
+    ],
+    "summary": {
+      " NJ": {
+        "max": 0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0,
+        "std": 0.0,
+        "type": "UNIQUE",
+        "zeros": 0
+      },
+      "120 jefferson st.": {
+        "max": 0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0,
+        "std": 0.0,
+        "type": "UNIQUE",
+        "zeros": 0
+      },
+      "8075": {
+        "max": 91234,
+        "mean": 21769.8,
+        "median": 8075.0,
+        "min": 123,
+        "std": 39059.21,
+        "type": "NUM",
+        "zeros": 0
+      },
+      "Doe": {
+        "max": 0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0,
+        "std": 0.0,
+        "type": "UNIQUE",
+        "zeros": 0
+      },
+      "John": {
+        "max": 0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0,
+        "std": 0.0,
+        "type": "UNIQUE",
+        "zeros": 0
+      },
+      "Riverside": {
+        "max": 0,
+        "mean": 0.0,
+        "median": 0.0,
+        "min": 0,
+        "std": 0.0,
+        "type": "CAT",
+        "zeros": 0
+      }
+    }
+  }
+]
