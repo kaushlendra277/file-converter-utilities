@@ -1,9 +1,8 @@
 package root.poi;
 
-import java.awt.Dimension;
 import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,7 +12,9 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageTree;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.poi.sl.usermodel.PictureData.PictureType;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
@@ -57,10 +58,16 @@ public class Poi315HelperWithoutCreatinImagesInHardDrive {
 			try (PDDocument pdDocument = new PDDocument();
 					ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
 				// reading each page of pdf as image
-				pdDocument.addPage(pages.get(i));
+				PDPage pdPage = pages.get(i);
+				pdDocument.addPage(pdPage);
 				PDFRenderer pdfRenderer = new PDFRenderer(pdDocument);
-				BufferedImage image = pdfRenderer.renderImage(0);
-
+				int subImageWidth = 550 ;
+				int subImageHeight =  650;
+				
+				// cropping the pdf page [CAN CAUSE DATA LOSS]
+				BufferedImage image = pdfRenderer.renderImage(0)
+						.getSubimage(0, 0, subImageWidth, subImageHeight);
+				
 				// converting BufferedImage into a byte array
 				ImageIO.write(image, "png", baos);
 				baos.flush();
@@ -80,16 +87,18 @@ public class Poi315HelperWithoutCreatinImagesInHardDrive {
 					*/
 					// creating new slide in the ppt
 					slide = targetPpt.createSlide(titleOnly);
+					
+					// to remove layout default text
+					slide.clear();
 				}else {
 					slide = targetPpt.createSlide();
 				}
-				
 				// adding the image to the presentation
 				XSLFPictureData pictureData = targetPpt.addPicture(pictureByteArray, PictureType.PNG);
 				// creating a slide with given picture on it
 				XSLFPictureShape picture = slide.createPicture(pictureData);
 				// Set picture position and size
-				picture.setAnchor(new Rectangle(70, 30, 500, 450));
+				//picture.setAnchor(new Rectangle(0, 0, subImageWidth, subImageHeight));
 				
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -136,5 +145,38 @@ public class Poi315HelperWithoutCreatinImagesInHardDrive {
 			e.printStackTrace();
 		}
 		System.out.println("ppt template modified from Poi315HelperWithoutCreatinImagesInHardDrive");
+	}
+	
+	// method to crop white space
+	// NOTWORKING
+	public static BufferedImage crop(BufferedImage image) {
+	    int minY = 0, maxY = 0, minX = Integer.MAX_VALUE, maxX = 0;
+	    boolean isBlank, minYIsDefined = false;
+	    Raster raster = image.getRaster();
+
+	    for (int y = 0; y < image.getHeight(); y++) {
+	        isBlank = true;
+
+	        for (int x = 0; x < image.getWidth(); x++) {
+	            //Change condition to (raster.getSample(x, y, 3) != 0) 
+	            //for better performance
+	        	if (raster.getSample(x, y, 2) != 0) {
+	                isBlank = false;
+
+	                if (x < minX) minX = x;
+	                if (x > maxX) maxX = x;
+	            }
+	        }
+
+	        if (!isBlank) {
+	            if (!minYIsDefined) {
+	                minY = y;
+	                minYIsDefined = true;
+	            } else {
+	                if (y > maxY) maxY = y;
+	            }
+	        }
+	    }
+	    return image.getSubimage(minX, minY, maxX - minX + 1, maxY - minY + 1);
 	}
 }
